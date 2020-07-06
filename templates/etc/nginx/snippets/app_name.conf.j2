@@ -1,0 +1,12 @@
+
+root /home/{{ app_name }}/www;
+
+index index.html;
+
+location / {
+    proxy_pass http://{{ app_name }}_env;
+    proxy_set_header Host $host;
+    proxy_buffer_size          128k;
+    proxy_buffers              4 256k;
+    proxy_busy_buffers_size    256k;
+}

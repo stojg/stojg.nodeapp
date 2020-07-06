@@ -1,0 +1,24 @@
+[Unit]
+Description={{ app_name }}.js
+After=network.target
+
+[Service]
+Environment=NODE_PORT={{ app_port }}
+Type=simple
+User={{ app_name }}
+WorkingDirectory=/home/{{ app_name }}
+ExecStart=/usr/bin/node /home/{{ app_name }}/www/index.js
+
+Restart=always
+RestartSec=1000ms
+StartLimitInterval=10
+
+# limits
+MemoryHigh=200M
+MemoryMax=256M
+CPUWeight=20
+CPUQuota=85%
+IOWeight=20
+
+[Install]
+WantedBy=multi-user.target

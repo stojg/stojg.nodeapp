@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+
+upstream {{ app_name }}_env {
+    server 127.0.0.1:3000;
+}
+
+# redirect to https://
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	server_name {{ fqdn }};
+
+    # disabled until we can figure out the local dev with SSL
+    #if ($host = {{ fqdn }}) {
+    #    return 301 https://$host$request_uri;
+    #}
+
+    include /etc/nginx/snippets/{{ app_name }}.conf;
+}
+
+server {
+    listen [::]:443 ssl ipv6only=on;
+    listen 443 ssl;
+    server_name {{ fqdn }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ fqdn }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ fqdn }}/privkey.pem;
+    include /etc/nginx/tls.conf;
+
+    include /etc/nginx/snippets/{{ app_name }}.conf;
+}

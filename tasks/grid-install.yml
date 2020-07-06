@@ -1,0 +1,11 @@
+---
+
+- name: Install a list of extra packages
+  apt:
+    pkg: "{{ extra_packages }}"
+    state: present
+
+- name: Ensure python OpenSSL dependencies are installed.
+  pip:
+    name: pyOpenSSL
+    state: present

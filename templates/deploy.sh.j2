@@ -1,0 +1,26 @@
+#!/bin/bash
+set -euxo pipefail
+
+echo "arguments: ${1} ${2}"
+
+release=$1
+artifact_url=$2
+
+new_release_dir="${HOME}/releases/${release}"
+run_dir="${HOME}/www"
+
+if [[ -d "${new_release_dir}" ]]; then
+    rm -rf "${new_release_dir}"
+fi
+
+mkdir -p "${new_release_dir}"
+
+download_location="/tmp/appname-${release}.tgz"
+
+curl  --location --silent --show-error --output "${download_location}" "${artifact_url}"
+tar --strip-components 1 --directory "${new_release_dir}" -xzvf "${download_location}"
+
+ln --symbolic --force --no-dereference ${new_release_dir} ${run_dir}
+
+sudo /bin/systemctl restart {{ app_name }}.service
+echo "done"

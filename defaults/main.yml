@@ -1,0 +1,12 @@
+---
+
+app_name: myapp
+app_port: 3000
+
+extra_packages: []
+
+certbot_create_standalone_stop_services: ["nginx"]
+certbot_install_from_source: true
+certbot_certs:
+  - domains:
+    - "grid.test"

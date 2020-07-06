@@ -1,0 +1,7 @@
+---
+
+- name: "ensure {{ app_name }}.service is running and enabled"
+  systemd:
+    name: "{{ app_name }}.service"
+    enabled: yes
+    state: started

@@ -1,0 +1,8 @@
+---
+- import_tasks: grid-install.yml
+  tags: ["grid", "grid:install", "install"]
+
+- import_tasks: grid-config.yml
+  tags: ["grid", "grid:config", "config"]
+
+
