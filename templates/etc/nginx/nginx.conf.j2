@@ -1,0 +1,55 @@
+# {{ ansible_managed }}
+
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {
+	worker_connections 768;
+}
+
+http {
+
+	proxy_cache_path  /var/www/cache levels=1:2 keys_zone=my-cache:8m max_size=1000m inactive=600m;
+	proxy_temp_path /var/www/cache/tmp;
+	real_ip_header X-Forwarded-For;
+	proxy_cache_bypass $http_x_update;
+
+	fastcgi_cache_path /var/cache/nginxfastcgi levels=1:2 keys_zone=fastcgicache:10m inactive=10m max_size=64m;
+	fastcgi_cache_key $scheme$request_method$host$request_uri;
+	# note: can also use HTTP headers to form the cache key, e.g.
+	#fastcgi_cache_key $scheme$request_method$host$request_uri$http_x_custom_header;
+	fastcgi_cache_lock on;
+	fastcgi_cache_use_stale error timeout invalid_header updating http_500;
+	fastcgi_cache_valid 144000m;
+
+	##
+	# Basic Settings
+	##
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
+
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+
+	##
+	# Logging Settings
+	##
+	access_log /var/log/nginx/access.log;
+	error_log /var/log/nginx/error.log;
+
+	##
+	# Gzip Settings
+	##
+	gzip on;
+	gzip_disable "msie6";
+
+	##
+	# Virtual Host Configs
+	##
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+}

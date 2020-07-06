@@ -1,8 +1,10 @@
 ---
-- import_tasks: grid-install.yml
-  tags: ["grid", "grid:install", "install"]
+- import_tasks: nodeapp-install.yml
+  tags: ["nodeapp", "nodeapp:install", "install"]
 
-- import_tasks: grid-config.yml
-  tags: ["grid", "grid:config", "config"]
+- import_tasks: nodeapp-config.yml
+  tags: ["nodeapp", "nodeapp:config", "config"]
 
+- import_tasks: nodeapp-service.yml
+  tags: ["nodeapp", "nodeapp:service", "service"]
 

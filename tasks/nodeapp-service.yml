@@ -1,0 +1,13 @@
+---
+
+- name: "ensure {{ app_name }}.service is running and enabled"
+  systemd:
+    name: "{{ app_name }}.service"
+    enabled: yes
+    state: started
+
+- name: Ensure nginx is running and enabled
+  service:
+    name: nginx
+    enabled: true
+    state: started
