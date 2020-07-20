@@ -6,7 +6,7 @@ After=network.target
 Environment=NODE_PORT={{ app_port }}
 Type=simple
 User={{ app_name }}
-WorkingDirectory=/home/{{ app_name }}
+WorkingDirectory=/home/{{ app_name }}/www
 ExecStart=/usr/bin/node /home/{{ app_name }}/www/index.js
 
 Restart=always
